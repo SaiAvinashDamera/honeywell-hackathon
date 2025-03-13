@@ -111,9 +111,9 @@ function Home({}: Props) {
           >
             {`Output`}
           </label>
-          <div className="flex bg-gray-200 rounded-2xl h-10 px-2 items-center">
+          <code className="flex bg-gray-200 rounded h-10 px-2 items-center">
             {output}
-          </div>
+          </code>
         </div>
       </div>
     </div>
