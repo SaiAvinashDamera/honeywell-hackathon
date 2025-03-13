@@ -19,18 +19,19 @@ function Home({}: Props) {
 
   const handleSubmit = (event: any) => {
     setIsLoading(true);
-    const data = {
-      inputString: inputString,
-      type: selectedOption,
-      firstName: 'Sai Avinash',
-    };
+
+    const formData = new FormData();
+    formData.append('inputString', inputString);
+    formData.append('type', selectedOption);
+    formData.append('firstName', 'Sai Avinash');
     axios
-      .post('/api/encrypt', data, {
+      .post('/api/process', formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       })
-      .then((value) => {
+      .then((response) => {
+        setOutput(response.data.result);
         toast.success(selectedOption + ' processed!');
       })
       .catch(() => toast.error(selectedOption + ' processing failed!'))
@@ -41,7 +42,7 @@ function Home({}: Props) {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
       <Navbar />
-      <div className="max-w-[940px] w-[480px] min-w-[200px]">
+      <div className="max-w-[940px] w-[600px] min-w-[200px]">
         {/* Input String */}
         <div>
           <label

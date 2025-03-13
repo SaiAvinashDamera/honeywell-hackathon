@@ -15,10 +15,10 @@ function Navbar({}: Props) {
           src={HoneywellLogo}
         />
       </div>
-      <div className="text-3xl font-bold text-gray-800">
-        Encryption/Decryption
+      <div className="text-3xl font-semibold text-gray-800">
+        AES Encryption/Decryption Test
       </div>
-      <div></div>
+      <div>{` `}</div>
     </div>
   );
 }
