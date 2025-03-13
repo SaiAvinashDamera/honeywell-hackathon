@@ -13,6 +13,8 @@ function Home({}: Props) {
   const [output, setOutput] = useState('');
   const [loading, setIsLoading] = useState(false);
 
+  const [error, setError] = useState(false);
+
   const handleChange = (event: any) => {
     setSelectedOption(event.target.value);
   };
@@ -20,24 +22,29 @@ function Home({}: Props) {
   const handleSubmit = (event: any) => {
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append('inputString', inputString);
-    formData.append('type', selectedOption);
-    formData.append('firstName', 'Sai Avinash');
-    axios
-      .post('/api/process', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((response) => {
-        setOutput(response.data.result);
-        toast.success(selectedOption + ' processed!');
-      })
-      .catch(() => toast.error(selectedOption + ' processing failed!'))
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (inputString && selectedOption) {
+      setError(false);
+      const formData = new FormData();
+      formData.append('inputString', inputString);
+      formData.append('type', selectedOption);
+      formData.append('firstName', 'Sai Avinash');
+      axios
+        .post('/api/process', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((response) => {
+          setOutput(response.data.result);
+          toast.success(selectedOption + ' processed!');
+        })
+        .catch(() => toast.error(selectedOption + ' processing failed!'))
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setError(true);
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center gap-10">
@@ -111,9 +118,15 @@ function Home({}: Props) {
           >
             {`Output`}
           </label>
-          <code className="flex bg-gray-200 rounded h-10 px-2 items-center">
-            {output}
-          </code>
+          <div className="bg-gray-200">
+            {error ? (
+              <code className="flex rounded h-10 px-2 items-center text-red-600">{`Enter a valid Input String`}</code>
+            ) : (
+              <code className="flex rounded h-10 px-2 items-center">
+                {output}
+              </code>
+            )}
+          </div>
         </div>
       </div>
     </div>

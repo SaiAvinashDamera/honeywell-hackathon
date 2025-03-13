@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
 const ALGORITHM = 'aes-256-cbc';
-const IV_LENGTH = 16; // Initialization vector length
+const IV_LENGTH = 16;
 
 const generateKey = (firstName: string) => {
   return crypto
