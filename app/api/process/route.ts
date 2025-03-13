@@ -35,22 +35,16 @@ export async function handler(request: NextRequest) {
   if (request.method === 'POST') {
     try {
       const formData = await request.formData();
-
       const inputString = await formData.get('inputString')?.toString();
       const type = await formData.get('type')?.toString();
       const firstName = await formData.get('firstName')?.toString();
 
-      if (!inputString || !type || !firstName) {
-        return new NextResponse(
-          JSON.stringify({ message: 'Input string and type are required.' }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
       let result;
       if (type === 'Encryption') {
+        //@ts-expect-error
         result = encrypt(inputString, firstName);
       } else if (type === 'Decryption') {
+        //@ts-expect-error
         result = decrypt(inputString, firstName);
       } else {
         return new NextResponse(
